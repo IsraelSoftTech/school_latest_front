@@ -1,0 +1,98 @@
+.disp-users-container {
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  max-width: 1000px;
+  margin: 2rem auto;
+}
+
+.disp-users-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #333;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fafbfc;
+}
+
+.users-table th, .users-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eaeaea;
+  text-align: left;
+}
+
+.users-table th {
+  background: #f5f6fa;
+  color: #222;
+  font-weight: 600;
+}
+
+.users-table tr:last-child td {
+  border-bottom: none;
+}
+
+.edit-btn, .delete-btn, .save-btn, .cancel-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+  transition: color 0.2s;
+}
+
+.edit-btn:hover {
+  color: #007bff;
+}
+.delete-btn:hover {
+  color: #e74c3c;
+}
+.save-btn {
+  color: #27ae60;
+  font-weight: bold;
+}
+.save-btn:hover {
+  text-decoration: underline;
+}
+.cancel-btn {
+  color: #888;
+}
+.cancel-btn:hover {
+  text-decoration: underline;
+}
+
+.edit-row input, .edit-row select {
+  width: 100%;
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.loader {
+  text-align: center;
+  color: #888;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #e74c3c;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+@media (max-width: 600px) {
+  .disp-users-container {
+    padding: 0.5rem;
+  }
+  .users-table th, .users-table td {
+    padding: 0.5rem 0.3rem;
+    font-size: 0.95rem;
+  }
+} 

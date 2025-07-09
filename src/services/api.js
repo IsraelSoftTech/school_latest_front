@@ -669,6 +669,36 @@ class ApiService {
       throw error;
     }
   }
+
+  // Admin: Get all users
+  async getAllUsers() {
+    const response = await fetch(`${API_URL}/users`, {
+      headers: this.getAuthHeaders(),
+    });
+    return await this.handleResponse(response);
+  }
+
+  // Admin: Delete user by id
+  async deleteUser(id) {
+    const response = await fetch(`${API_URL}/users/${id}`, {
+      method: 'DELETE',
+      headers: this.getAuthHeaders(),
+    });
+    return await this.handleResponse(response);
+  }
+
+  // Admin: Edit user by id
+  async editUser(id, data) {
+    const response = await fetch(`${API_URL}/users/${id}`, {
+      method: 'PUT',
+      headers: {
+        ...this.getAuthHeaders(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return await this.handleResponse(response);
+  }
 }
 
 export default new ApiService(); 

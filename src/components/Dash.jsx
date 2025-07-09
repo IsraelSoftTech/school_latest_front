@@ -16,6 +16,7 @@ import {
   Legend
 } from 'chart.js';
 import { useYear } from '../context/YearContext';
+import DispUsers from './DispUsers';
 
 
 ChartJS.register(
@@ -46,6 +47,7 @@ function Dash() {
   });
   const [yearlyTotalFees, setYearlyTotalFees] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -191,6 +193,10 @@ function Dash() {
             <MdBadge className="nav-icon" />
             <span>ID Cards</span>
           </div>
+          <div className="nav-item" onClick={() => setActiveTab('users')}>
+            <MdPeople className="nav-icon" />
+            <span>Users</span>
+          </div>
           <div className="nav-item" onClick={handleLogout}>
             <MdLogout className="nav-icon" />
             <span>Logout</span>
@@ -253,6 +259,10 @@ function Dash() {
             <MdBadge className="nav-icon" />
             <span>ID Cards</span>
           </div>
+          <div className="nav-item" onClick={() => setActiveTab('users')}>
+            <MdPeople className="nav-icon" />
+            <span>Users</span>
+          </div>
           <div className="nav-item" onClick={handleLogout}>
             <MdLogout className="nav-icon" />
             <span>Logout</span>
@@ -313,6 +323,10 @@ function Dash() {
           <MdBadge className="nav-icon" />
           <span>ID Cards</span>
         </div>
+        <div className={`nav-item${activeTab === 'users' ? ' active' : ''}`} onClick={() => setActiveTab('users')}>
+          <MdPeople className="nav-icon" />
+          <span>Users</span>
+        </div>
         <div className="nav-item" onClick={handleLogout}>
           <MdLogout className="nav-icon" />
           <span>Logout</span>
@@ -351,20 +365,23 @@ function Dash() {
           {userInitials || username.charAt(0).toUpperCase()}
         </div>
         
-        <div className="dashboard-content">
-          <div className="header">
-            <h1>Dashboard</h1>
+        {activeTab === 'dashboard' && (
+          <div className="dashboard-content">
+            <div className="header">
+              <h1>Dashboard</h1>
+            </div>
+            <div className="stats-row">
+              {cardData.map((card, idx) => (
+                <div className={`stat-card2 ${card.className}`} key={card.label}>
+                  <span className="card-label">{card.label}</span>
+                  <span className="card-value">{card.value}<span className="plus">+</span></span>
+                  <span className="card-bg-icon">{card.icon}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="stats-row">
-            {cardData.map((card, idx) => (
-              <div className={`stat-card2 ${card.className}`} key={card.label}>
-                <span className="card-label">{card.label}</span>
-                <span className="card-value">{card.value}<span className="plus">+</span></span>
-                <span className="card-bg-icon">{card.icon}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        )}
+        {activeTab === 'users' && <DispUsers />}
       </div>
     </div>
   );
