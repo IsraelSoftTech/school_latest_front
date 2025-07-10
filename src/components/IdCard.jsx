@@ -3,8 +3,10 @@ import './IdCard.css';
 import { useNavigate } from 'react-router-dom';
 import { useNavigation } from '../context/NavigationContext';
 import logo from '../assets/logo.png';
+import stamp from '../assets/stamp.jpg';
 import { MdDashboard, MdLogout, MdPeople, MdSchool, MdWork, MdPerson, MdAttachMoney, MdCreditCard, MdPrint, MdMenu, MdClose } from 'react-icons/md';
 import ApiService from '../services/api';
+const API_BASE_URL = 'https://school-latest-back.onrender.com'; // Use your backend base URL
 
 const generateMatricule = (fullName, guardianContact) => {
   const nameParts = (fullName || '').trim().split(' ');
@@ -20,11 +22,20 @@ const generateMatricule = (fullName, guardianContact) => {
 };
 
 const IdCardTemplate = ({ student }) => {
-  const serverBaseUrl = 'http://localhost:5000';
-  const studentPictureUrl = student.student_picture 
-    ? `${serverBaseUrl}${student.student_picture}` 
-    : null;
-    
+  let studentPictureUrl = null;
+  if (student.student_picture) {
+    if (student.student_picture.startsWith('http')) {
+      studentPictureUrl = student.student_picture;
+    } else if (student.student_picture.startsWith('/uploads/')) {
+      // Always use backend base URL for uploads
+      studentPictureUrl = `${API_BASE_URL}${student.student_picture}`;
+    } else {
+      studentPictureUrl = student.student_picture;
+    }
+  }
+  // Debug log for image URL
+  console.log('IDCard: student', student.full_name, 'picture:', student.student_picture, 'computed URL:', studentPictureUrl);
+  const [imgError, setImgError] = React.useState(false);
   const matricule = generateMatricule(student.full_name, student.guardian_contact);
 
   return (
@@ -41,8 +52,15 @@ const IdCardTemplate = ({ student }) => {
         </div>
         <div className="id-card-body">
           <div className="student-picture-container">
-            {studentPictureUrl ? (
-              <img src={studentPictureUrl} alt={`${student.full_name}`} className="student-picture" />
+            {studentPictureUrl && !imgError ? (
+              <img 
+                src={studentPictureUrl} 
+                alt={`${student.full_name}`} 
+                className="student-picture" 
+                onError={() => setImgError(true)}
+              />
+            ) : imgError ? (
+              <div className="no-picture">PHOTO NOT FOUND</div>
             ) : (
               <div className="no-picture">NO PICTURE</div>
             )}
@@ -57,6 +75,7 @@ const IdCardTemplate = ({ student }) => {
               <p><strong>Father's Name:</strong> {student.father_name || 'N/A'}</p>
             </div>
           </div>
+          <img src={stamp} alt="Official Stamp" className="id-card-stamp" />
         </div>
         <div className="id-card-footer">
           <h4>2025/2026 ACADEMIC YEAR</h4>
