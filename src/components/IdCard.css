@@ -262,6 +262,9 @@
     padding: 0;
     box-sizing: border-box;
   }
+  .hamburger-menu {
+    display: none !important;
+  }
 }
 
 .idcard-page-wrapper .id-card-modern {
