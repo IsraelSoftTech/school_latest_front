@@ -293,16 +293,57 @@
     padding: 1rem 0.5rem;
   }
   .userreg-modal {
-    margin: 1rem;
-    max-height: 95vh;
+    width: 98vw !important;
+    min-width: unset;
+    max-width: 100vw;
+    border-radius: 12px;
+    padding: 0 0 20px 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
   }
-  .userreg-form-row {
-    flex-direction: column;
-    gap: 0.5rem;
+  .userreg-modal-header {
+    padding: 18px 16px 10px 16px;
+    border-radius: 12px 12px 0 0;
+  }
+  .userreg-modal-header h2 {
+    font-size: 1.2rem;
+    text-align: left;
   }
   .userreg-form {
-    padding: 1rem;
-    gap: 0.7rem;
+    padding: 0 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .userreg-form-row {
+    display: block !important;
+    gap: 0 !important;
+    flex-direction: unset !important;
+    margin-bottom: 0;
+  }
+  .userreg-form-group {
+    width: 100% !important;
+    display: block !important;
+    margin-bottom: 16px;
+  }
+  .userreg-form-group input,
+  .userreg-form-group select,
+  .userreg-form-group textarea {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+    display: block;
+  }
+  .userreg-modal-actions {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 12px;
+  }
+  .userreg-cancel-btn, .userreg-save-btn {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 14px 0;
+    border-radius: 8px;
   }
 }
 @media (max-width: 600px) {
@@ -334,21 +375,45 @@
     padding: 1rem 0.2rem;
   }
   .userreg-modal {
-    margin: 0.5rem;
-    width: calc(100vw - 1rem);
-    border-radius: 12px;
+    width: 100vw !important;
+    padding: 0 0 10px 0;
   }
   .userreg-modal-header {
-    padding: 1rem 1.2rem;
-  }
-  .userreg-modal-header h2 {
-    font-size: 1.1rem;
+    padding: 14px 10px 8px 10px;
   }
   .userreg-form {
-    padding: 1rem;
+    padding: 0 6px;
+  }
+  .userreg-form-group input,
+  .userreg-form-group select {
+    font-size: 0.98rem;
+    padding: 10px 8px;
+    min-height: 40px;
+  }
+  .userreg-cancel-btn, .userreg-save-btn {
+    font-size: 1rem;
+    padding: 12px 0;
+  }
+}
+@media (max-width: 400px) {
+  .userreg-header, .userreg-table-container {
+    padding: 0.2rem;
+  }
+  .userreg-modal {
+    border-radius: 0;
+    padding: 0;
+  }
+  .userreg-modal-header {
+    padding: 0.7rem 0.5rem;
+  }
+  .userreg-modal-header h2 {
+    font-size: 1rem;
+  }
+  .userreg-form {
+    padding: 0.5rem;
   }
   .userreg-form-group label {
-    font-size: 0.93rem;
+    font-size: 0.95rem;
   }
   .userreg-form-group input, .userreg-form-group select {
     min-height: 44px;
@@ -359,23 +424,14 @@
     gap: 0.5rem;
   }
 }
-@media (max-width: 400px) {
-  .userreg-header, .userreg-table-container {
-    padding: 0.2rem;
-  }
-  .userreg-modal {
-    margin: 0.2rem;
-    width: calc(100vw - 0.4rem);
-    border-radius: 8px;
-  }
-  .userreg-modal-header {
-    padding: 0.7rem 0.5rem;
-  }
+@media (max-width: 360px) {
   .userreg-modal-header h2 {
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
-  .userreg-form {
-    padding: 0.5rem;
+  .userreg-form-group input,
+  .userreg-form-group select {
+    font-size: 0.92rem;
+    min-height: 36px;
   }
 }
 .userreg-dashboard-container {

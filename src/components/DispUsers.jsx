@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './DispUsers.css';
 import ApiService from '../services/api';
+import { MdArrowBack, MdEdit, MdDelete, MdSave, MdClose, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
-const DispUsers = () => {
+const DispUsers = ({ onBack, showBack = false }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editUser, setEditUser] = useState(null);
   const [editForm, setEditForm] = useState({ username: '', contact: '', password: '', role: '' });
+  const [visiblePassword, setVisiblePassword] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -57,7 +59,14 @@ const DispUsers = () => {
 
   return (
     <div className="disp-users-container">
-      <h2>All Users</h2>
+      <div className="disp-users-header">
+        {showBack && (
+          <button className="back-btn" aria-label="Back" onClick={onBack || (() => window.history.back())}>
+            <MdArrowBack style={{ marginRight: 6 }} /> Back
+          </button>
+        )}
+        <h2 style={{ margin: 0 }}>All Users</h2>
+      </div>
       {loading ? (
         <div className="loader">Loading users...</div>
       ) : error ? (
@@ -90,19 +99,29 @@ const DispUsers = () => {
                       </select>
                     </td>
                     <td>
-                      <button className="save-btn" onClick={handleEditSubmit}>Save</button>
-                      <button className="cancel-btn" onClick={() => setEditUser(null)}>Cancel</button>
+                      <button className="save-btn" aria-label="Save" onClick={handleEditSubmit}><MdSave /></button>
+                      <button className="cancel-btn" aria-label="Cancel" onClick={() => setEditUser(null)}><MdClose /></button>
                     </td>
                   </tr>
                 ) : (
                   <tr key={user.id}>
                     <td>{user.username}</td>
                     <td>{user.contact}</td>
-                    <td className="password-cell">••••••••</td>
+                    <td className="password-cell">
+                      {visiblePassword === user.id ? (user.password || '••••••••') : '••••••••'}
+                      <button
+                        className="password-eye"
+                        aria-label={visiblePassword === user.id ? 'Hide password' : 'Show password'}
+                        onClick={() => setVisiblePassword(visiblePassword === user.id ? null : user.id)}
+                        tabIndex={0}
+                      >
+                        {visiblePassword === user.id ? <MdVisibilityOff /> : <MdVisibility />}
+                      </button>
+                    </td>
                     <td>{user.role}</td>
                     <td>
-                      <button className="edit-btn" onClick={() => handleEdit(user)} title="Edit User">✏️</button>
-                      <button className="delete-btn" onClick={() => handleDelete(user.id)} title="Delete User">🗑️</button>
+                      <button className="edit-btn" aria-label="Edit User" onClick={() => handleEdit(user)}><MdEdit /></button>
+                      <button className="delete-btn" aria-label="Delete User" onClick={() => handleDelete(user.id)}><MdDelete /></button>
                     </td>
                   </tr>
                 )

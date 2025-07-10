@@ -381,7 +381,9 @@ function Dash() {
             </div>
           </div>
         )}
-        {activeTab === 'users' && <DispUsers />}
+        {activeTab === 'users' && (
+          <DispUsers showBack={true} onBack={() => setActiveTab('dashboard')} />
+        )}
       </div>
     </div>
   );

@@ -43,29 +43,43 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   margin-right: 0.5rem;
-  transition: color 0.2s;
+  transition: color 0.2s, background 0.2s;
+  border-radius: 50%;
+  padding: 0.4rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  outline: none;
 }
-
-.edit-btn:hover {
+.edit-btn:hover, .edit-btn:focus {
   color: #007bff;
+  background: #e6f0ff;
+  text-decoration: none !important;
 }
-.delete-btn:hover {
+.delete-btn:hover, .delete-btn:focus {
   color: #e74c3c;
+  background: #ffeaea;
+  text-decoration: none !important;
 }
 .save-btn {
   color: #27ae60;
   font-weight: bold;
 }
-.save-btn:hover {
-  text-decoration: underline;
+.save-btn:hover, .save-btn:focus {
+  background: #eafaf1;
+  color: #219150;
+  text-decoration: none !important;
 }
 .cancel-btn {
   color: #888;
 }
-.cancel-btn:hover {
-  text-decoration: underline;
+.cancel-btn:hover, .cancel-btn:focus {
+  background: #f2f2f2;
+  color: #555;
+  text-decoration: none !important;
 }
 
 .edit-row input, .edit-row select {
@@ -87,12 +101,141 @@
   margin: 1rem 0;
 }
 
-@media (max-width: 600px) {
+.disp-users-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+.back-btn {
+  background: #14296a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  padding: 8px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+.back-btn:hover {
+  background: #1e3a8a;
+}
+
+.users-table-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.users-table td > button {
+  margin-right: 0.4rem;
+}
+.users-table td > button:last-child {
+  margin-right: 0;
+}
+
+.password-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.password-eye {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 0.1rem;
+  padding: 0.1rem 0.2rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+}
+.password-eye:hover, .password-eye:focus {
+  background: #f0f0f0;
+  color: #14296a;
+}
+
+@media (max-width: 768px) {
   .disp-users-container {
-    padding: 0.5rem;
+    padding-top: 56px !important;
+  }
+  .disp-users-header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+    padding: 0.7rem 0.2rem 0.7rem 0.2rem;
+    margin-bottom: 0.7rem;
+    border-bottom: 1px solid #eaeaea;
+    min-height: 56px;
+    height: 56px;
+    box-sizing: border-box;
+  }
+  .back-btn {
+    font-size: 1.1rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+  .users-table-container {
+    border-radius: 0;
+    box-shadow: none;
+    margin-top: 0 !important;
+    /* Add margin to prevent overlap with sticky header */
+    margin-bottom: 0.7rem;
+    padding: 0.2rem;
+  }
+  .users-table {
+    min-width: 600px;
+    font-size: 0.97rem;
   }
   .users-table th, .users-table td {
     padding: 0.5rem 0.3rem;
     font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .users-table th {
+    font-size: 0.93rem;
+  }
+  .edit-row input, .edit-row select {
+    font-size: 0.97rem;
+    padding: 0.5rem 0.3rem;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .edit-btn, .delete-btn, .save-btn, .cancel-btn {
+    font-size: 1.1rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border-radius: 7px;
+    margin: 0.1rem 0.2rem;
+    width: 100%;
+    display: block;
+  }
+  .edit-row td {
+    padding-bottom: 0.7rem;
+  }
+  .loader, .error {
+    font-size: 1.1rem;
+    padding: 1rem 0.2rem;
+  }
+  .table-responsive::after {
+    content: '← Scroll to see more →';
+    display: block;
+    text-align: center;
+    color: #888;
+    font-size: 0.95rem;
+    margin: 0.3rem 0 0.2rem 0;
+    opacity: 0.7;
   }
 } 
