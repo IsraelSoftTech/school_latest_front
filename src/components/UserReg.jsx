@@ -35,12 +35,11 @@ function UserReg() {
     father_name: '',
     mother_name: '',
     previous_class: '',
-    next_class: '',
+    next_class: '', // will hold class ID
     previous_average: '',
     guardian_contact: '',
     student_picture: null,
-    vocational_training: '',
-    class_id: ''
+    vocational_training: ''
   });
 
   useEffect(() => {
@@ -131,6 +130,8 @@ function UserReg() {
           submitData.append(key, formData[key]);
         }
       });
+      // Map next_class (class ID) to backend as class_id
+      submitData.append('class_id', formData.next_class);
       if (editingStudent) {
         await ApiService.updateStudent(editingStudent.id, submitData);
         setSuccessMessage('Student updated successfully!');
@@ -161,12 +162,11 @@ function UserReg() {
       father_name: student.father_name || '',
       mother_name: student.mother_name || '',
       previous_class: student.previous_class || '',
-      next_class: student.next_class || '',
+      next_class: student.class_id || '', // Set next_class to class_id for editing
       previous_average: student.previous_average || '',
       guardian_contact: student.guardian_contact || '',
       student_picture: null,
-      vocational_training: student.vocational_training || '',
-      class_id: student.class_id || ''
+      vocational_training: student.vocational_training || ''
     });
     setShowModal(true);
   };
@@ -236,8 +236,7 @@ function UserReg() {
       previous_average: '',
       guardian_contact: '',
       student_picture: null,
-      vocational_training: '',
-      class_id: ''
+      vocational_training: ''
     });
   };
 
@@ -442,22 +441,6 @@ function UserReg() {
               <form onSubmit={handleSubmit} className="student-form">
                 <div className="form-row">
                   <div className="form-group">
-                    <label>Class *</label>
-                    <select
-                      name="class_id"
-                      value={formData.class_id}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Select a class</option>
-                      {classes.map((classItem) => (
-                        <option key={classItem.id} value={classItem.id}>
-                          {classItem.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
                     <label>Registration Date *</label>
                     <input
                       type="date"
@@ -538,24 +521,26 @@ function UserReg() {
                 </div>
                 <div className="form-row">
                   <div className="form-group">
-                    <label>Previous Class</label>
+                    <label>Previous Class *</label>
                     <input
                       type="text"
                       name="previous_class"
                       value={formData.previous_class}
                       onChange={handleInputChange}
+                      required
                     />
                   </div>
                   <div className="form-group">
-                    <label>Next Class</label>
+                    <label>Next Class *</label>
                     <select
                       name="next_class"
                       value={formData.next_class}
                       onChange={handleInputChange}
+                      required
                     >
                       <option value="">Select a class</option>
                       {classes.map((classItem) => (
-                        <option key={classItem.id} value={classItem.name}>
+                        <option key={classItem.id} value={classItem.id}>
                           {classItem.name}
                         </option>
                       ))}
@@ -564,7 +549,7 @@ function UserReg() {
                 </div>
                 <div className="form-row">
                   <div className="form-group">
-                    <label>Previous Average</label>
+                    <label>Previous Average *</label>
                     <input
                       type="number"
                       step="0.01"
@@ -573,6 +558,7 @@ function UserReg() {
                       name="previous_average"
                       value={formData.previous_average}
                       onChange={handleInputChange}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -603,11 +589,12 @@ function UserReg() {
                     />
                   </div>
                   <div className="form-group">
-                    <label>Vocational Training</label>
+                    <label>Vocational Training *</label>
                     <select
                       name="vocational_training"
                       value={formData.vocational_training}
                       onChange={handleInputChange}
+                      required
                     >
                       <option value="">Select vocational training</option>
                       {vocationals.map((vocational) => (
