@@ -123,11 +123,18 @@ function UserReg() {
     
     try {
       const submitData = new FormData();
+      // Find the selected class object
+      const selectedClass = classes.find(c => String(c.id) === String(formData.next_class));
       Object.keys(formData).forEach(key => {
         if (key === 'student_picture' && formData[key]) {
           submitData.append(key, formData[key]);
         } else if (formData[key] !== null && formData[key] !== '') {
-          submitData.append(key, formData[key]);
+          // For next_class, append the class name instead of ID
+          if (key === 'next_class' && selectedClass) {
+            submitData.append('next_class', selectedClass.name);
+          } else if (key !== 'next_class') {
+            submitData.append(key, formData[key]);
+          }
         }
       });
       // Map next_class (class ID) to backend as class_id

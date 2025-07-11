@@ -6,6 +6,7 @@ import { MdPeople, MdAdd, MdEdit, MdDelete, MdLogout, MdDashboard, MdSchool, MdW
 import ApiService from '../services/api';
 import logo from '../assets/logo.png';
 import './Students.css';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 function Students() {
   const regularNavigate = useNavigate();
@@ -45,6 +46,8 @@ function Students() {
     student_picture: null,
     vocational_training: ''
   });
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const [menuModalOpen, setMenuModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserAndData = async () => {
@@ -124,31 +127,33 @@ function Students() {
     e.preventDefault();
     try {
       const submitData = new FormData();
-      
+      // Find the selected class object
+      const selectedClass = classes.find(c => String(c.id) === String(formData.next_class));
       // Append all form data to FormData
       Object.keys(formData).forEach(key => {
         if (key === 'student_picture' && formData[key]) {
           submitData.append(key, formData[key]);
         } else if (formData[key] !== null && formData[key] !== '') {
-          submitData.append(key, formData[key]);
+          // For next_class, append the class name instead of ID
+          if (key === 'next_class' && selectedClass) {
+            submitData.append('next_class', selectedClass.name);
+          } else if (key !== 'next_class') {
+            submitData.append(key, formData[key]);
+          }
         }
       });
-
       // Map next_class (class ID) to backend as class_id
       submitData.append('class_id', formData.next_class);
-
       if (editingStudent) {
         await ApiService.updateStudent(editingStudent.id, submitData);
       } else {
         await ApiService.createStudent(submitData);
       }
-      
       // Show success message
       setShowSuccess(true);
       setTimeout(() => {
         setShowSuccess(false);
       }, 2000);
-      
       setShowModal(false);
       setEditingStudent(null);
       resetForm();
@@ -581,28 +586,48 @@ function Students() {
       <div className="main-content">
         <div className="header">
           <h1>Student Management</h1>
-          <div className="header-buttons">
-            <button className="add-button" onClick={openAddModal}>
-              <MdAdd />
-              Add Student
-            </button>
-            <button className="approve-all-button" onClick={handleApproveAllClick}>
-              <MdCheckCircle />
-              Approve All
-            </button>
-            <button className="delete-all-button" onClick={handleDeleteAllClick}>
-              <MdDelete />
-              Delete All
-            </button>
-            <button className="upload-button" onClick={() => setShowUploadModal(true)}>
-              <MdUpload />
-              Upload Students
-            </button>
-            <button className="print-button" onClick={() => setShowPrintModal(true)}>
-              <MdPrint />
-              Print
-            </button>
-          </div>
+          {isMobile ? (
+            <>
+              <button className="menus-button" onClick={() => setMenuModalOpen(true)}>
+                Student Menus
+              </button>
+              {menuModalOpen && (
+                <div className="menu-modal-overlay" onClick={() => setMenuModalOpen(false)}>
+                  <div className="menu-modal" onClick={e => e.stopPropagation()}>
+                    <button className="modal-action-btn" onClick={() => { openAddModal(); setMenuModalOpen(false); }}><MdAdd /> Add Student</button>
+                    <button className="modal-action-btn" onClick={() => { handleApproveAllClick(); setMenuModalOpen(false); }}><MdCheckCircle /> Approve All</button>
+                    <button className="modal-action-btn" onClick={() => { handleDeleteAllClick(); setMenuModalOpen(false); }}><MdDelete /> Delete All</button>
+                    <button className="modal-action-btn" onClick={() => { setShowUploadModal(true); setMenuModalOpen(false); }}><MdUpload /> Upload Students</button>
+                    <button className="modal-action-btn" onClick={() => { setShowPrintModal(true); setMenuModalOpen(false); }}><MdPrint /> Print</button>
+                    <button className="modal-action-btn close-modal-btn" onClick={() => setMenuModalOpen(false)} style={{fontSize:'22px',padding:'0.2em 0 0.1em 0'}}>&times;</button>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="header-buttons">
+              <button className="add-button" onClick={openAddModal}>
+                <MdAdd />
+                Add Student
+              </button>
+              <button className="approve-all-button" onClick={handleApproveAllClick}>
+                <MdCheckCircle />
+                Approve All
+              </button>
+              <button className="delete-all-button" onClick={handleDeleteAllClick}>
+                <MdDelete />
+                Delete All
+              </button>
+              <button className="upload-button" onClick={() => setShowUploadModal(true)}>
+                <MdUpload />
+                Upload Students
+              </button>
+              <button className="print-button" onClick={() => setShowPrintModal(true)}>
+                <MdPrint />
+                Print
+              </button>
+            </div>
+          )}
         </div>
 
         {error && (
@@ -639,7 +664,7 @@ function Students() {
                   <td>{student.father_name}</td>
                   <td>{student.mother_name}</td>
                   <td>{student.previous_class || '-'}</td>
-                  <td>{student.next_class || '-'}</td>
+                  <td>{student.class_name || student.next_class || '-'}</td>
                   <td>{student.previous_average || '-'}</td>
                   <td>{student.guardian_contact}</td>
                   <td>{student.vocational_training || '-'}</td>

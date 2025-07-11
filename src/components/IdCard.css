@@ -447,3 +447,25 @@
   z-index: 2;
   background: #fff;
 } 
+
+@media (max-width: 768px) {
+  .idcard-page-wrapper .idcard-main-header h1 {
+    font-size: 1.3rem;
+    margin-top: 48px;
+  }
+  .idcard-page-wrapper .school-details h2 {
+    font-size: 0.8rem;
+  }
+  .idcard-page-wrapper .school-details h3 {
+    font-size: 0.7rem;
+  }
+  .idcard-page-wrapper .student-name {
+    font-size: 0.95rem;
+  }
+  .idcard-page-wrapper .id-card-footer h4 {
+    font-size: 0.8rem;
+  }
+  .idcard-page-wrapper .info-grid p {
+    font-size: 0.8rem;
+  }
+} 
